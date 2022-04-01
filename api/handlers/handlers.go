@@ -15,7 +15,7 @@ func GetProducts(rw http.ResponseWriter, r *http.Request) {
 
 	rw.Header().Set("Content-Type", "application/json")
 
-	var products = repositories.GetProducts()
+	products := repositories.GetProducts()
 	data, _ := json.Marshal(products)
 
 	fmt.Fprintln(rw, string(data))

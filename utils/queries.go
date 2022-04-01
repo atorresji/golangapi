@@ -6,9 +6,9 @@ import (
 	"strings"
 )
 
-const ProductDetailQuery string = "SELECT * FROM [GoLangAPI].[dbo].[Product].[v_ProductDetail]"
+const ProductDetailQuery string = "SELECT * FROM [GoLangAPI].[dbo].[v_ProductDetail]"
 
-var ProductDetailQueryById string = "SELECT * FROM [GoLangAPI].[dbo].[Product].[v_ProductDetail] WHERE Id = "
+var ProductDetailQueryById string = "SELECT * FROM [GoLangAPI].[dbo].[v_ProductDetail] WHERE Id = "
 
 var DeleteProductById string = "DELETE FROM [GoLangAPI].[dbo].[Product] WHERE Id = "
 

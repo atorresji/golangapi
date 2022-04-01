@@ -20,15 +20,19 @@ func AddProduct(pr *dto.ProductCreateDto) bool {
 
 func GetProducts() []dto.ProductDto {
 
+	
 	var rows *sql.Rows = database.QueryStatement(utils.ProductDetailQuery)
 
-	var products = []dto.ProductDto{}
+	products := []dto.ProductDto{}
 
 	for rows.Next() {
+
 		product := dto.ProductDto{}
 		rows.Scan(&product.Id, &product.Name, &product.Stock, &product.Discontinued, &product.Category, &product.Supplier)
 		products = append(products, product)
 	}
+
+	fmt.Println(products)
 
 	return products
 }
@@ -44,6 +48,8 @@ func GetProductById(id int) dto.ProductDto {
 	if rows.Next() {
 		rows.Scan(&product.Id, &product.Name, &product.Stock, &product.Discontinued, &product.Category, &product.Supplier)
 	}
+
+	//database.CloseConnection()
 
 	return product
 }
