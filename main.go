@@ -1,9 +1,10 @@
 package main
 
 import (
-	"packages/launch"
+	"packages/api/endpoints"
 )
 
 func main() {
-	launch.LaunchApi()
+	endpoints.CreateProductEndpoint()
+	//launch.LaunchApi()
 }
