@@ -5,22 +5,25 @@ import (
 	"fmt"
 	"packages/database"
 	"packages/database/dto"
+	"packages/database/models"
 	"packages/utils"
 	"strconv"
 )
 
-func AddProduct(pr *dto.ProductCreateDto) bool {
+type ProductRepository interface {
+	AddProduct(p models.Product) models.Product
 
-	insert := utils.CreateInsertProduct(pr.Name, pr.Stock, pr.Discontinued, pr.SupplierId, pr.CategoryId)
-	fmt.Println(insert)
-	database.NonQueryStatement(insert)
+	GetProducts() []dto.ProductDto
 
-	return true
+	GetProductById(id int) dto.ProductDto
+
+	UpadteProduct(p models.Product) bool
+
+	DeleteProduct(id int) bool
 }
 
 func GetProducts() []dto.ProductDto {
 
-	
 	var rows *sql.Rows = database.QueryStatement(utils.ProductDetailQuery)
 
 	products := []dto.ProductDto{}
@@ -49,9 +52,17 @@ func GetProductById(id int) dto.ProductDto {
 		rows.Scan(&product.Id, &product.Name, &product.Stock, &product.Discontinued, &product.Category, &product.Supplier)
 	}
 
-	//database.CloseConnection()
-
 	return product
+}
+
+func AddProduct(pr *dto.ProductCreateDto) dto.ProductDto {
+
+	insert := utils.CreateInsertProduct(pr.Name, pr.Stock, pr.Discontinued, pr.SupplierId, pr.CategoryId)
+	fmt.Println(insert)
+	database.NonQueryStatement(insert)
+	productCreated := GetProductById(getLastId())
+
+	return productCreated
 }
 
 func UpdateProduct(pr *dto.ProductUpdateDto, id int) bool {
@@ -67,4 +78,18 @@ func DeleteProduct(id int) bool {
 	fmt.Println(delete)
 	database.NonQueryStatement(delete)
 	return true
+}
+
+func getLastId() int {
+	query := utils.GetLastInsertedId
+	fmt.Println(query)
+	var rows *sql.Rows = database.QueryStatement(query)
+
+	id := 0
+
+	if rows.Next() {
+		rows.Scan(&id)
+	}
+	return id
+
 }

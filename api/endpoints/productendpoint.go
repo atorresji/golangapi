@@ -18,6 +18,6 @@ func CreateProductEndpoint() {
 	mux.HandleFunc("/api/products/{id:[0-9]+}", handlers.UpdateProduct).Methods("PUT")
 	mux.HandleFunc("/api/products/{id:[0-9]+}", handlers.DeleteProduct).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":666", mux))
+	log.Fatal(http.ListenAndServe(":1234", mux))
 
 }
