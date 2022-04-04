@@ -37,18 +37,20 @@ func GetProductById(rw http.ResponseWriter, r *http.Request) {
 func CreateProduct(rw http.ResponseWriter, r *http.Request) {
 
 	rw.Header().Set("Content-Type", "application/json")
+	rw.WriteHeader(http.StatusCreated)
 
-	product := dto.ProductCreateDto{}
+	productCreateDto := dto.ProductCreateDto{}
+	productDto := dto.ProductDto{}
 
 	decoder := json.NewDecoder(r.Body)
 
-	if err := decoder.Decode(&product); err != nil {
+	if err := decoder.Decode(&productCreateDto); err != nil {
 		fmt.Println(rw, http.StatusUnprocessableEntity)
 	} else {
-		repositories.AddProduct(&product)
+		productDto = repositories.AddProduct(&productCreateDto)
 	}
 
-	data, _ := json.Marshal(product)
+	data, _ := json.Marshal(productDto)
 
 	fmt.Fprintln(rw, string(data))
 
@@ -61,7 +63,7 @@ func UpdateProduct(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, _ := strconv.Atoi(vars["id"])
 
-	fmt.Println("Se actualizara el producto " + strconv.Itoa(id))
+	//fmt.Println("Se actualizara el producto " + strconv.Itoa(id))
 
 	product := dto.ProductUpdateDto{}
 

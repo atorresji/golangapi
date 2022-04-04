@@ -12,6 +12,8 @@ var ProductDetailQueryById string = "SELECT * FROM [GoLangAPI].[dbo].[v_ProductD
 
 var DeleteProductById string = "DELETE FROM [GoLangAPI].[dbo].[Product] WHERE Id = "
 
+var GetLastInsertedId = "SELECT MAX(ID) FROM [GoLangAPI].[dbo].[v_ProductDetail]"
+
 func CreateUpdateStatement(updateDto *dto.ProductUpdateDto, id int) string {
 
 	discontinuedValue := "0"

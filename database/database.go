@@ -14,7 +14,7 @@ var db *sql.DB
 func OpenConnection() {
 	connection, err := sql.Open("mssql", connectionString)
 	if err != nil {
-		fmt.Println("Ocurrió un error Alv")
+		fmt.Println("Is not possible to connect to database")
 		panic(err)
 	}
 	db = connection
@@ -22,17 +22,6 @@ func OpenConnection() {
 
 func CloseConnection() {
 	db.Close()
-}
-
-func Get(query string) bool {
-
-	rows, err := db.Query(query)
-	if err != nil {
-		fmt.Println("Valió barrriga valedor")
-	}
-	fmt.Println(rows.Columns())
-
-	return rows.Next()
 }
 
 func QueryStatement(query string) *sql.Rows {
@@ -64,12 +53,12 @@ func Insert(query string) int64 {
 	defer db.Close()
 
 	if executeErr != nil {
-		fmt.Println("Valió barrriga en EXECUTE valedor")
+		fmt.Println("Something went wrong when executing statement")
 	}
 
 	id, insertErr := rows.RowsAffected()
 	if insertErr != nil {
-		fmt.Println("Valió barrriga en INSERT valedor")
+		fmt.Println("Unable to execute Non Query")
 	}
 
 	return id
@@ -79,5 +68,5 @@ func Ping() {
 	if err := db.Ping(); err != nil {
 		panic(err)
 	}
-	fmt.Println("Todo chilo")
+	//fmt.Println("All good")
 }
